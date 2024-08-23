@@ -120,13 +120,16 @@ int main(void)
   while (1)
   {
 	  //ring_buffer_read(data);
-	  //uint8_t byte = 0;
+	  uint8_t byte = 0;
 
-//	  if(ring_buffer_read(&byte) != 0){
-//		  HAL_UART_Transmit(&huart2, &byte, 1, 10);
-//
-//
-//	  }
+	  if(ring_buffer_read(&byte) != 0){
+		  HAL_UART_Transmit(&huart2, &byte, 1, 10);
+		  if(check_sequence(byte) != 0){
+		  		  HAL_UART_Transmit(&huart2, "Rafael Ricardo Torres Choperena\n", 32, 20);
+		  	}
+
+
+	  }
 //	  if(byte == 115){
 //		  uint8_t size = ring_buffer_size();
 //		  size = size + '0';
@@ -135,9 +138,7 @@ int main(void)
 //		  //HAL_UART_Transmit(&huart2, &hola, 1, 10);
 //		  HAL_UART_Transmit(&huart2, &size, 1, 10);
 //	  }
-	  if(check_sequence() != 0){
-		  HAL_UART_Transmit(&huart2, "Rafael Ricardo Torres Choperena\n", 32, 20);
-	  }
+
 	  //HAL_UART_Transmit(&huart2, &size, 1, 10);
 //	  uint8_t byte = ring_buffer_read();
 //	  HAL_UART_Transmit(&huart2, &byte, 1, 10);

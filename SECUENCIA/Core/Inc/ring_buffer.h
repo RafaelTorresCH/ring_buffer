@@ -15,7 +15,7 @@ uint8_t ring_buffer_size(void);//ok
 uint8_t ring_buffer_is_full(void);//ok
 uint8_t ring_buffer_is_empty(void);//ok
 
-uint8_t check_sequence(void);
+uint8_t check_sequence(uint8_t byte);
 
 void ring_buffer_write(uint8_t data);
 uint8_t ring_buffer_read(uint8_t *byte);

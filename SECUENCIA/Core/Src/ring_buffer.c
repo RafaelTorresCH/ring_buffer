@@ -94,39 +94,23 @@ uint8_t ring_buffer_is_empty(void){
 }
 
 
-uint8_t check_sequence(void) {
-    uint8_t byte;
+uint8_t check_sequence(uint8_t byte ) {
+
     uint8_t sequence[10] =  {'1', '0', '0', '7', '2', '4', '6', '6', '0', '6'};
-    if (ring_buffer_read(&byte)) {
+
         if (byte == sequence[seq_index]) {
             seq_index++;
             if (seq_index == SEQUENCE_SIZE) {
                 // Secuencia encontrada
-            	return 1;
-                // Aquí puedes realizar la acción deseada cuando la secuencia se encuentra
+
+
                 seq_index = 0; // Reiniciar búsqueda para buscar nuevas secuencias
+                return 1;
             }
         } else {
             seq_index = 0; // Reiniciar búsqueda si no coincide
         }
-    }
+
     return 0;
 }
-//Implemente la siguente funcionalidad en el programa:
-//Usando la libreria de ring buffer, imprima su nombre en consola cuando
-//reciba por uart su numero de documento completo.
-//
-//uint8_t cc(void){
-//	static uint8_t full;
-//	uint8_t secuence[8] = {1,0,0,7,2,4,6,6,0,6};
-//	if(is_full == 1){
-//		full = 1;
-//	}
-//	if(full == 1){
-//
-//
-//
-//	}
-//	return 1;
-//
-//}
+
