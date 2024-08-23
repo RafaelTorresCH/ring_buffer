@@ -12,7 +12,7 @@ uint8_t head_ptr;//cabeza buffer
 uint8_t tail_ptr;//cola buffer
 uint8_t is_full;
 uint8_t seq_index;
-uint8_t SEQUENCE_SIZE = 10;
+uint8_t sequence_size = 10;
 /**
  * @brief: esta funcion se encarga de escribir un dato en el buffer
  *
@@ -75,7 +75,12 @@ void ring_buffer_reset(void){
 		ring_buffer[0] = 0;//reset buffer
 	}
 }
-
+/**
+ * @brief:revisa si el buffer esta lleno
+ * @param void
+ *
+ * retval 0:buffer no full, 1: buffer full
+ * */
 uint8_t ring_buffer_is_full(void){
 	if(is_full != 0){
 		return 1;// buffer full
@@ -83,9 +88,16 @@ uint8_t ring_buffer_is_full(void){
 		return 0; //buffer no full
 	}
 }
+/**
+ * @brief: esta funcion se encarga de revisar si el buffer esta vacio
+ *
+ * @param void
+ *
+ * retval 0:buffer empty, 1: buffer no empty
+ * */
 uint8_t ring_buffer_is_empty(void){
 	for(uint8_t i = 0; i < 8; i++){
-			if(ring_buffer[i] != 0){
+			if(ring_buffer[i] != '0'){
 				return 1;//buffer no empty
 			}
 	}
@@ -93,22 +105,27 @@ uint8_t ring_buffer_is_empty(void){
 	//buffer empty
 }
 
-
-uint8_t check_sequence(uint8_t byte ) {
+/**
+ * @brief: esta funcion se encarga de encontrar una secuencia de numeros, a traves de la lectura del buffer
+ *
+ * @param byte: indica el byte entrante, para hacer la correspondiente comprobacion
+ *
+ * retval 0: no se ha encontrado la secuencia, 1: se encontro la secuencia
+ * */
+uint8_t check_sequence(uint8_t byte) {
 
     uint8_t sequence[10] =  {'1', '0', '0', '7', '2', '4', '6', '6', '0', '6'};
 
         if (byte == sequence[seq_index]) {
             seq_index++;
-            if (seq_index == SEQUENCE_SIZE) {
-                // Secuencia encontrada
+            if (seq_index == sequence_size) {
+                // se encontro la secuencia
 
-
-                seq_index = 0; // Reiniciar búsqueda para buscar nuevas secuencias
+                seq_index = 0; // Reiniciar secuencia para encontrar la proxima
                 return 1;
             }
         } else {
-            seq_index = 0; // Reiniciar búsqueda si no coincide
+            seq_index = 0; // reinicia el contador
         }
 
     return 0;
