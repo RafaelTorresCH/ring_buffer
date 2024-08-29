@@ -6,11 +6,19 @@
  */
 
 #include "ring_buffer.h"
-#define capacity (8)//capacidad del buffe
-uint8_t ring_buffer[capacity];//buffer
-uint8_t head_ptr;//cabeza buffer
-uint8_t tail_ptr;//cola buffer
-uint8_t is_full;
+//#define capacity (8)//capacidad del buffe
+//uint8_t ring_buffer[capacity];//buffer
+//uint8_t head_ptr;//cabeza buffer
+//uint8_t tail_ptr;//cola buffer
+//uint8_t is_full;
+
+void ring_buffer_init (ring_buffer_ *rb, uint8_t * mem_add, uint8_t cap){
+	rb -> buffer = mem_add;
+	rb -> capacity = cap;
+	ring_buffer_reset();
+	//realizar el trato de variables como si fueran el buffer
+
+}
 uint8_t seq_index;
 uint8_t sequence_size = 10;
 /**
@@ -61,7 +69,10 @@ uint8_t ring_buffer_read (uint8_t *byte) {
 
 
 uint8_t ring_buffer_size(void){
-	if(head_ptr > tail_ptr){
+	if(is_full != 0){
+		return capacity;
+	}
+	if(head_ptr >= tail_ptr){
 		return head_ptr - tail_ptr;
 
 	}else{
@@ -71,9 +82,15 @@ uint8_t ring_buffer_size(void){
 
 }
 void ring_buffer_reset(void){
-	for(uint8_t i = 0; i < 8; i++){
-		ring_buffer[0] = 0;//reset buffer
-	}
+//	for(uint8_t i = 0; i < 8; i++){
+//		ring_buffer[i] = 0;//reset buffer
+//	}
+// es una opcion
+	rb -> head = 0;//cabeza buffer
+	rb  = 0;//cola buffer
+	is_full = 0;//ring lleno
+
+
 }
 /**
  * @brief:revisa si el buffer esta lleno
@@ -93,16 +110,23 @@ uint8_t ring_buffer_is_full(void){
  *
  * @param void
  *
+ *
  * retval 0:buffer empty, 1: buffer no empty
  * */
 uint8_t ring_buffer_is_empty(void){
-	for(uint8_t i = 0; i < 8; i++){
-			if(ring_buffer[i] != '0'){
-				return 1;//buffer no empty
-			}
+//	for(uint8_t i = 0; i < 8; i++){
+//			if(ring_buffer[i] != 0){
+//				return 1;//buffer no empty
+//			}
+//	}
+//	return 0;
+//	//buffer empty
+
+	if(head_ptr == tail_ptr && is_full == 0){
+		return 1;
 	}
 	return 0;
-	//buffer empty
+
 }
 
 /**
